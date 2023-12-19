@@ -7,6 +7,7 @@ function App() {
   const [error, setError] = useState("");
   const [shortLink, setShortLink] = useState("");
   const [copied, setCopied] = useState(false);
+  const [asyncError, setAsyncError] = useState("");
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ function App() {
     setLoading(true);
     e.preventDefault();
     if (link === "") {
+      setLoading(false);
       setError("Please provide a link");
       return;
     } else {
@@ -32,9 +34,14 @@ function App() {
           setLoading(false);
           setLink("");
         })
-        .catch(() => {
+        .catch((error: unknown) => {
           // handle error here
           setLoading(false);
+          if (error instanceof Error) {
+            setAsyncError("An error occured. Kindly try again later.");
+          } else {
+            setAsyncError("An unknown error occurred. Please try again later.");
+          }
         });
     }
   }
@@ -50,7 +57,9 @@ function App() {
       setTimeout(() => {
         setCopied(false);
       }, 1500);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -60,6 +69,7 @@ function App() {
           URL link shortener
         </h1>
         {loading && <p className="text-white">Loading...</p>}
+        {asyncError !== "" && <p className="text-red-500 pb-2">{asyncError}</p>}
 
         {shortLink && (
           <div className="flex items-center gap-3">
