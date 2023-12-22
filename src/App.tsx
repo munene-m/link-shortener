@@ -82,12 +82,12 @@ function App() {
 
         {shortLink && (
           <div className="flex items-center gap-3">
-            <Link to={`/url/${id}`}>
-              <p>
-                Short link -{" "}
+            <p>
+              Short link -{" "}
+              <Link to={`/url/${id}`}>
                 <span className="underline cursor-pointer">{shortLink}</span>
-              </p>
-            </Link>
+              </Link>
+            </p>
 
             {!copied && (
               <FaRegCopy
