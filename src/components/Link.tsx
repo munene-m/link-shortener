@@ -19,7 +19,7 @@ export default function Link() {
   });
   return (
     <div className="h-screen">
-      <h1 className="text-white">Loading...</h1>
+      <h1 className="text-white text-center">Redirecting...</h1>
     </div>
   );
 }
