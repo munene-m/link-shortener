@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaRegCopy } from "react-icons/fa6";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 function App() {
   const [link, setLink] = useState("");
@@ -9,6 +10,14 @@ function App() {
   const [copied, setCopied] = useState(false);
   const [asyncError, setAsyncError] = useState("");
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+  // Split the URL by "/"
+  const parts = shortLink.split("/");
+
+  // Get the last part of the URL, which should be the unique ID
+  const id = parts[parts.length - 1];
+
+  console.log(id);
 
   const [loading, setLoading] = useState(false);
 
@@ -73,9 +82,13 @@ function App() {
 
         {shortLink && (
           <div className="flex items-center gap-3">
-            <p>
-              Short link - <span className="underline">{shortLink}</span>
-            </p>
+            <Link to={`/url/${id}`}>
+              <p>
+                Short link -{" "}
+                <span className="underline cursor-pointer">{shortLink}</span>
+              </p>
+            </Link>
+
             {!copied && (
               <FaRegCopy
                 className={`text-purple-400 text-xl cursor-pointer ${
